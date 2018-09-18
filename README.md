@@ -236,23 +236,7 @@ ages_df = pd.DataFrame(ages)
 ages_df
 ```
 
-
-
-
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1180,7 +1164,7 @@ df <- df[!(df$FTOTVAL ==  99999999 | df$FTOTVAL ==  99999998),]
 df <- df[!(df$INCTOT ==  99999999 | df$INCTOT == 99999998),]
 
 df <- df[order(df$FTOTVAL),]
-```
+
 #We get the 5 classes. According to William Thompson & Joseph Hickey, 2005	we have
 
 lower_class = df[df$FTOTVAL <= 16000,]
@@ -1201,28 +1185,8 @@ df_f = filter(df, SEX == 2)
 transform(df, AGE = as.numeric(AGE))
 m <- ggplot(df_m, aes(x=(df_m$AGE), y=(df_m$INCTOT))) + geom_col(colour ="blue")  + xlab("Age")+ ylab("Income")+ ggtitle("Age to Income Ratio (Both Sexes)")
 m <- m  + geom_col(data = df_f, aes(x=(df_f$AGE), y=(df_f$INCTOT)), colour = "red")
-'''
-
-```python
-%%HTML
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 2:Lower Class Distribution fit<img src="https://i.imgur.com/mswxiL7.jpg" alt="" width="" /></p>
-<p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 3:Working Class Distribution fit<img src="https://i.imgur.com/kjS40cj.jpg" alt="" width="" /></p>
-<p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 4:Lower Middle Class Distribution fit<img src="https://i.imgur.com/jBVVB9L.jpg" alt="" width="" /></p><p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 5:Upper Middle Class Distribution fit<img src="https://i.imgur.com/a/M67tfP4.jpg" alt="" width="" /></p>
-<p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 6:Upper Class Distribution fit<img src="https://i.imgur.com/mua8jlg.jpg" alt="" width="" /></p>
-
-</div>
-<p> Turns out that the last 5 distributions give good enough results to model a Generation 0 population. To be honest, I tried creating a machine learning model to try and predict the Income, but the nature of the data(Age, social class and sex) didn't help that much in my endeavor. However, the code for the model created can be found in the stats.py under the name get_income2. But when we will simulate the generations, we will have to keep in mind that men tend to have higher incomes than women and that the age-income distribution is a Gaussian </p>
-<p><span style="text-decoration: underline;">&nbsp;<em>References</em>:</span></p>
-<p style="font-size: 11px;"><em>1.Thompson, W. &amp; Hickey, J. (2005).&nbsp;Society in Focus. Boston, MA: Pearson, Allyn &amp; Bacon; Beeghley, L. (2004).&nbsp;The Structure of Social Stratification in the United States. Boston, MA: Pearson, Allyn &amp; Bacon.</em></p>
-<p style="font-size: 11px;"><em>2.Farell, C. (2018).&nbsp;How The Ratios Work &laquo; Your Money Ratios. [online] Yourmoneyratios.com. Available at: http://www.yourmoneyratios.com/how-the-ratios-work/ [Accessed 16 Aug. 2018].</em></p>
-<p>&nbsp;</p>
 ```
 
-
 <p style="text-align:center;font-weight:600; width: 100%;">Figure 2:Lower Class Distribution fit<img src="https://i.imgur.com/mswxiL7.jpg" alt="" width="" /></p>
 <p>&nbsp;</p>
 <p style="text-align:center;font-weight:600; width: 100%;">Figure 3:Working Class Distribution fit<img src="https://i.imgur.com/kjS40cj.jpg" alt="" width="" /></p>
@@ -1238,7 +1202,6 @@ m <- m  + geom_col(data = df_f, aes(x=(df_f$AGE), y=(df_f$INCTOT)), colour = "re
 <p style="font-size: 11px;"><em>1.Thompson, W. &amp; Hickey, J. (2005).&nbsp;Society in Focus. Boston, MA: Pearson, Allyn &amp; Bacon; Beeghley, L. (2004).&nbsp;The Structure of Social Stratification in the United States. Boston, MA: Pearson, Allyn &amp; Bacon.</em></p>
 <p style="font-size: 11px;"><em>2.Farell, C. (2018).&nbsp;How The Ratios Work &laquo; Your Money Ratios. [online] Yourmoneyratios.com. Available at: http://www.yourmoneyratios.com/how-the-ratios-work/ [Accessed 16 Aug. 2018].</em></p>
 <p>&nbsp;</p>
-
 
 #### Python
 According to Figures 2-6, I fit each social class' income to the following distributions respectively:
