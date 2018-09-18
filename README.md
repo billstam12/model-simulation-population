@@ -1164,14 +1164,6 @@ social_class
 I used R and some data collected from IPUMS.org, to achieve my goal.
 Then I used some R code to divide the data instances to the classes based on the proposed model[1], after I analysed the income to the gender and age of the people as shown in Figure 1.
 
-
-```python
-%%HTML
-<p style="text-align:center"><b> Figure 1</b>:Age to Income Scatterplot (Blue:Male, Red: Female)
-<img src="https://i.imgur.com/TUHBnGA.jpg"></p>
-```
-
-
 <p style="text-align:center"><b> Figure 1</b>:Age to Income Scatterplot (Blue:Male, Red: Female)
 <img src="https://i.imgur.com/TUHBnGA.jpg"></p>
 
@@ -1179,7 +1171,7 @@ Then I used some R code to divide the data instances to the classes based on the
 #### R
 
 With the following R code I divided the data I gathered from IPUMS.org to social classes based on the model proposed by Thompson and Hickey[1].
-'''
+```R
 df <- read.csv(file="cps_00005.csv", header=TRUE, sep=",")
 #Remove nan, d$INCTOT == 99999999, d$INCTOT == 99999998,
 
@@ -1188,7 +1180,7 @@ df <- df[!(df$FTOTVAL ==  99999999 | df$FTOTVAL ==  99999998),]
 df <- df[!(df$INCTOT ==  99999999 | df$INCTOT == 99999998),]
 
 df <- df[order(df$FTOTVAL),]
-
+```
 #We get the 5 classes. According to William Thompson & Joseph Hickey, 2005	we have
 
 lower_class = df[df$FTOTVAL <= 16000,]
