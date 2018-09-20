@@ -1,3 +1,5 @@
+# FOR A MORE UP TO DATE VERSION OPEN README.ipynb
+
 
 # In what level does inheritance affect the capital distribution of a population?
 ## Find out with the help of Python
