@@ -3,12 +3,8 @@ import numpy as np
 import scipy as sp
 import pandas as pd
 import scipy.stats as stats
-from rpy2.robjects.packages import importr
-import rpy2.robjects as ro
-from rpy2.robjects import r, pandas2ri
 import csv
 import os
-from rpy2.robjects.packages import STAP
 
 np.random.seed(1)
 
@@ -85,15 +81,15 @@ def get_income(social_class):
 	#lower_class = 1 (14-20%) , working_class =  2 (20 -52%), lower_middle_class = 3 (52-84%), upper_middle_class= 4 (84-99%), upper_class = 5 (99-100%)
 
 	if(social_class == 1):
-		inc = np.random.uniform(-3744.26,15749.78)
+		inc = np.random.uniform(-4367.355, 22702.328)
 	elif(social_class == 2):
-		inc = np.random.normal(15879.603, 9528.182)
+		inc = np.random.normal(24582.61, 17385.96)
 	elif(social_class == 3):
-		inc = np.random.normal(27564.15, 19854.43)
+		inc = np.random.normal(42932.44, 32864.41)
 	elif(social_class == 4):
-		inc = np.random.normal(55957.25, 48711.24)
+		inc = np.random.normal(81311.41, 72562.80)
 	else:
-		inc = np.random.gamma(1/0.6346247, 1/0.000002982905)
+		inc = np.random.gamma(1/0.720821, 1/0.000002367471)
 
 	return inc
 	# ro.r.source("income.R")

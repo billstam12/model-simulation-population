@@ -11,7 +11,7 @@ For this reason, I created a model based on real world data that simulates a N p
 
 ### Footnote
 
-The results of both the model and the simulation follow in the lines of code below. I have to be clear that this project was made for fun and for me to try to test my Python, statistics and R skills while finding out something I was really curious about. For this reason, I INSIST that you do take what is described with a big grain of salt as it is only a model of society and does not try to replicate every single aspect of reality. In the future I hope I improve on both the model and the simulation, adding more features and making it as realer as I can.
+The results of both the model and the simulation follow in the lines of code below. I have to be clear that this project was made for fun and for me to try to test my Python, statistics and R skills while finding out something I was really curious about. For this reason, I INSIST that you do take what is described with a big grain of salt as it is only a model of society and does not try to replicate every single aspect of reality. In the future I hope I improve on both the model and the simulation, adding more features and making it as close to reality as I can.
 
 
 # Person stats model
@@ -84,8 +84,6 @@ class Person:
 
 
 ```
-
-
 
 <table style="margin:auto;width: 595px; height: 455px;">
 <tbody>
@@ -236,7 +234,23 @@ ages_df = pd.DataFrame(ages)
 ages_df
 ```
 
+
+
+
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1151,10 +1165,10 @@ Then I used some R code to divide the data instances to the classes based on the
 <p style="text-align:center"><b> Figure 1</b>:Age to Income Scatterplot (Blue:Male, Red: Female)
 <img src="https://i.imgur.com/TUHBnGA.jpg"></p>
 
-
 #### R
 
 With the following R code I divided the data I gathered from IPUMS.org to social classes based on the model proposed by Thompson and Hickey[1].
+
 ```R
 df <- read.csv(file="cps_00005.csv", header=TRUE, sep=",")
 #Remove nan, d$INCTOT == 99999999, d$INCTOT == 99999998,
@@ -1164,14 +1178,24 @@ df <- df[!(df$FTOTVAL ==  99999999 | df$FTOTVAL ==  99999998),]
 df <- df[!(df$INCTOT ==  99999999 | df$INCTOT == 99999998),]
 
 df <- df[order(df$FTOTVAL),]
-
 #We get the 5 classes. According to William Thompson & Joseph Hickey, 2005	we have
+lc = (floor(.2*nrow(df)))
+wc = (floor(.52*nrow(df)))
+lmc = (floor(.84*nrow(df)))
+umc = (floor(.99*nrow(df)))
+uc = (floor(.01*nrow(df)))
 
-lower_class = df[df$FTOTVAL <= 16000,]
-working_class = df[(df$FTOTVAL > 16000 & df$FTOTVAL <= 30000),]
-lower_middle_class = df[(df$FTOTVAL > 30000 & df$FTOTVAL <= 75000),]
-upper_middle_class = df[(df$FTOTVAL > 75000 & df$FTOTVAL <= 300000),]
-upper_class = df[(df$FTOTVAL > 300000),]
+lower_class = df[1:lc,]
+working_class = df[(lc+1):wc,]
+lower_middle_class = df[(wc+1):lmc,]
+upper_middle_class = df[(lmc+1):umc,]
+upper_class = df[(umc+1):nrow(df),]
+
+#print(nrow(lower_class)/nrow(df)*100)  -> 20%
+#print(nrow(working_class)/nrow(df)*100) -> 32%
+#print(nrow(lower_middle_class)/nrow(df)*100) -> 32%
+#print(nrow(upper_middle_class)/nrow(df)*100) -> 15%
+#print(nrow(upper_class)/nrow(df)*100) -> 1%
 
 print(fitdist(lower_class$INCTOT, distr = "unif", method = "mme"))
 print(fitdist(working_class$INCTOT, distr = "norm", method = "mme"))
@@ -1179,22 +1203,16 @@ print(fitdist(lower_middle_class$INCTOT, distr = "norm", method = "mme"))
 print(fitdist(upper_middle_class$INCTOT, distr = "norm", method = "mme"))
 print(fitdist(upper_class$INCTOT, distr = "gamma", method = "mme"))
 
-df_m = filter(df, SEX==1)
-df_f = filter(df, SEX == 2)
-
-transform(df, AGE = as.numeric(AGE))
-m <- ggplot(df_m, aes(x=(df_m$AGE), y=(df_m$INCTOT))) + geom_col(colour ="blue")  + xlab("Age")+ ylab("Income")+ ggtitle("Age to Income Ratio (Both Sexes)")
-m <- m  + geom_col(data = df_f, aes(x=(df_f$AGE), y=(df_f$INCTOT)), colour = "red")
 ```
 
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 2:Lower Class Distribution fit<img src="https://i.imgur.com/mswxiL7.jpg" alt="" width="" /></p>
+<p style="text-align:center;font-weight:600; width: 100%;">Figure 2:Lower Class Distribution fit<img src="https://i.imgur.com/g6egGvW.png" alt="" width="" /></p>
 <p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 3:Working Class Distribution fit<img src="https://i.imgur.com/kjS40cj.jpg" alt="" width="" /></p>
+<p style="text-align:center;font-weight:600; width: 100%;">Figure 3:Working Class Distribution fit<img src="https://i.imgur.com/dSDWiCj.png" alt="" width="" /></p>
 <p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 4:Lower Middle Class Distribution fit<img src="https://i.imgur.com/jBVVB9L.jpg" alt="" width="" /></p><p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 5:Upper Middle Class Distribution fit<img src="https://i.imgur.com/a/M67tfP4.jpg" alt="" width="" /></p>
+<p style="text-align:center;font-weight:600; width: 100%;">Figure 4:Lower Middle Class Distribution fit<img src="https://i.imgur.com/rcvpIYz.png" alt="" width="" /></p><p>&nbsp;</p>
+<p style="text-align:center;font-weight:600; width: 100%;">Figure 5:Upper Middle Class Distribution fit<img src="https://i.imgur.com/00P8YVm.png" alt="" width="" /></p>
 <p>&nbsp;</p>
-<p style="text-align:center;font-weight:600; width: 100%;">Figure 6:Upper Class Distribution fit<img src="https://i.imgur.com/mua8jlg.jpg" alt="" width="" /></p>
+<p style="text-align:center;font-weight:600; width: 100%;">Figure 6:Upper Class Distribution fit<img src="https://i.imgur.com/yQfllmt.png" alt="" width="" /></p>
 
 </div>
 <p> Turns out that the last 5 distributions give good enough results to model a Generation 0 population. To be honest, I tried creating a machine learning model to try and predict the Income, but the nature of the data(Age, social class and sex) didn't help that much in my endeavor. However, the code for the model created can be found in the stats.py under the name get_income2. But when we will simulate the generations, we will have to keep in mind that men tend to have higher incomes than women and that the age-income distribution is a Gaussian </p>
@@ -1301,7 +1319,7 @@ print person
 ```
 
     <Person ID:1, Gender:1, Social Class:1, Age:8, Income:0, Capital:0.0, Husband/Wife ID:0 Children: [] Father: 0 Mother: 0>
-    
+
 
 ## Generation 0
 
@@ -1452,42 +1470,42 @@ cap3 = plot_capital_to_class(population3,5000)
 ```
 
     Income:
-    [  3.04486775  16.24136004  25.1834787   35.36170792  20.16858559]
+    [ 3.25754056 17.64907108 27.34955917 36.03464325 15.70918595]
     Capital:
-    [  2.72025181  13.37711858  25.05057716  33.85605622  24.99599624]
+    [ 2.94931656 14.77192988 27.60128711 35.05683699 19.62062946]
     Population:
-    [ 16.9  33.3  31.1  18.    1.4]
+    [16.9 33.3 31.1 18.   1.4]
     Capital:Population ratio
-    [  0.16096165   0.40171527   0.8054848    1.88089201  17.85428303]
-    
+    [ 0.17451577  0.4436015   0.88750119  1.94760205 14.01473533]
+
 
 
 ![png](README_files/README_33_1.png)
 
 
     Income:
-    [  4.00846852  18.62256403  29.97272482  27.11150342  20.2847392 ]
+    [ 3.60685866 17.54332042 32.38809354 26.961163   19.50056438]
     Capital:
-    [  3.34674031  15.3788798   29.00070531  29.57629429  22.6973803 ]
+    [ 2.92336124 14.31667082 31.78975533 29.25399279 21.71621981]
     Population:
-    [ 19.5   34.05  31.45  14.15   1.15]
+    [17.95 32.5  33.4  14.65  1.55]
     Capital:Population ratio
-    [  0.17162771   0.45165579   0.922121     2.09019748  19.73685243]
-    
+    [ 0.16286135  0.44051295  0.95178908  1.99685958 14.01046439]
+
 
 
 ![png](README_files/README_33_3.png)
 
 
     Income:
-    [  4.54366027  15.91877716  30.74521258  27.9629385   20.82941148]
+    [ 4.81334394 17.38036787 33.43219905 28.23697775 16.13711139]
     Capital:
-    [  3.67429515  12.94857247  29.55927527  28.6110925   25.2067646 ]
+    [ 3.92188299 14.30665683 32.61451713 29.31294689 19.84399616]
     Population:
-    [ 21.6   29.34  33.76  14.22   1.16]
+    [21.52 29.48 33.76 14.1   1.16]
     Capital:Population ratio
-    [  0.17010626   0.44132831   0.87557095   2.01203182  21.72996949]
-    
+    [ 0.18224363  0.48530044  0.96606982  2.0789324  17.10689324]
+
 
 
 ![png](README_files/README_33_5.png)
@@ -1524,10 +1542,10 @@ print gini_index(np.array(cap2))
 print gini_index(np.array(cap3))
 ```
 
-    0.209669289657
-    0.181713517626
-    0.128805793859
-    
+    0.19617587628517835
+    0.18205903508393706
+    0.12080484386107655
+
 
 These numbers show that the population's we created have diminishing gini indexes as the population get bigger (and thus more representative of reality), making the model pretty unequal
 
@@ -1660,41 +1678,41 @@ run_simulation(population1, 20)
 ```
 
     1007
-    1458
-    1861
+    1462
+    1881
     2277
-    2645
-    3013
-    3371
-    3712
-    4036
-    4363
-    4679
-    5002
-    5297
-    5577
-    5843
-    6099
-    6363
-    6592
-    6805
-    7014
+    2650
+    3043
+    3404
+    3723
+    4028
+    4379
+    4688
+    4982
+    5263
+    5543
+    5820
+    6093
+    6358
+    6621
+    6856
+    7104
     Income:
-    [  2.29399441  18.42223232  31.58400462  31.16500031  16.53476834]
+    [ 1.96802942 20.26639224 34.34630328 30.3449897  13.07428536]
     Capital:
-    [ -2.09626689   9.67046752  30.81552577  40.16557087  21.44470273]
+    [-2.49912499  9.9415439  33.48622741 41.4580972  17.61325647]
     Population:
-    [ 20.01109416  31.99278879  31.99278879  14.99098599   1.01234225]
+    [20.01363327 31.99727335 31.99727335 14.99659168  0.99522836]
     Capital:Population ratio
-    [ -0.10475524   0.30227023   0.96320224   2.67931482  21.18325362]
-    
+    [-0.12487113  0.31069972  1.04653378  2.7645013  17.69770359]
+
 
 
 ![png](README_files/README_39_1.png)
 
 
-    0.186975733147
-    
+    0.18507320299921423
+
 
 What we see from the above graph is that with the passage of time if capital keeps being passed from parents to children, then the distribution of capital between the social classes, is getting even more unequal with the top classes getting most of the spoils while the lower ones are almost non-existent.
 
